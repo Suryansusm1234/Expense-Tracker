@@ -1,1 +1,15 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap');
+
+
+body {
+  background-color: #ECF4F7;
+  font-family: "Montserrat", sans-serif;
+}
+.progressbar {
+  background-color: #b0daf7;
+  height: 2rem;
+}
+.strips{
+  background-image: repeating-linear-gradient(45deg ,#b0daf7 0px 4px  , #8accf7 4px 8px );
+}

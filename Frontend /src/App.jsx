@@ -1,8 +1,15 @@
 import React from 'react'
+import axios from 'axios'
+import { useState } from 'react'
+import User from '../components/User'
+
 
 const App = () => {
   return (
-    <div>App</div>
+    <div>
+   <User />
+   </div>
+  
   )
 }
 
