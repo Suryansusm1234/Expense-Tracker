@@ -2,7 +2,7 @@ import React from 'react'
 
 const BalanceSection = ({IncomePercent , ExpensePercent}) => {
     return (
-        <div className='bg-white rounded p-3'>
+        <div className='bg-white rounded-lg shadow-md p-3'>
             <div className='lg:flex flex-col gap-5'>
                 <p className='text-2xl font-bold'>Bank Balance</p>
                 <p className='text-2xl font-medium italic text-cyan-600'>$15000</p>
