@@ -17,6 +17,9 @@ importers:
       dayjs:
         specifier: ^1.11.19
         version: 1.11.19
+      frontend:
+        specifier: 'link:'
+        version: 'link:'
       lucide-react:
         specifier: ^0.562.0
         version: 0.562.0(react@19.2.3)

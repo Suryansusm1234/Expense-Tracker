@@ -3,7 +3,7 @@ import React from 'react'
 const Progressbar = ({percentage}) => {
   return (
     <div className='rounded '>
-      <div className='progressbar rounded relative overflow-hidden w-70 '>
+      <div className='progressbar rounded relative overflow-hidden w-full '>
         <div className='strips leading-none h-full rounded-xs' style={{width: `${percentage}%`}}></div>
         <div className='absolute top-0 left-2 flex flex-col justify-center '>
           <p className='font-semibold'>{percentage}%</p>

@@ -4,10 +4,9 @@ import Progressbar from './Progressbar';
 import dayjs from 'dayjs';
 const User = () => {
   return (
-    <div className='flex items-stretch bg-white p-4 rounded-lg shadow-md' >
-      <CircleUserRound size="150" strokeWidth="1" stroke='blue' />
+    <div className=' bg-white p-4 rounded-lg shadow-md' >
       <div>
-        <p className='text-xl font-semibold'>Hello</p>
+        <p className='text-xl font-semibold'>Hello,</p>
         <p className='font-medium text-2xl'>Suryansu</p>
         <p className='font-light text-gray-400 text-sm'>{dayjs().format("DD MMMM, dddd")}</p>
         <Progressbar percentage={70} />
