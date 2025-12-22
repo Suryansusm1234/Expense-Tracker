@@ -7,8 +7,8 @@ const BalanceSection = ({IncomePercent , ExpensePercent}) => {
                 <p className='text-2xl font-bold'>Bank Balance</p>
                 <p className='text-2xl font-medium italic text-cyan-600'>$15000</p>
                 <div >
-                    <div className=' rounded ' style={{backgroundImage: `linear-gradient(90deg,rgb(17, 196, 17) ${IncomePercent}% , rgb(226, 5, 5) ${IncomePercent}% )` , height: '1.5rem'}} ></div>
-                    <div className='flex justify-between items-center '>
+                    <div className=' rounded w-70 ' style={{backgroundImage: `linear-gradient(90deg,rgb(17, 196, 17) ${IncomePercent}% , rgb(226, 5, 5) ${IncomePercent}% )` , height: '1.5rem'}} ></div>
+                    <div className='flex justify-between items-center w-70 '>
                         <p className='text-sm text-green-600'>Income</p>
                         <p className='text-sm text-red-600'>Expense</p>
                     </div>
