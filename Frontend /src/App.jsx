@@ -1,5 +1,4 @@
 import React from 'react'
-import axios from 'axios'
 import { useState } from 'react'
 import User from '../components/User'
 import BalanceSection from '../components/BalanceSection'
