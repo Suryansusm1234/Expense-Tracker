@@ -5,7 +5,6 @@ import Graph from '../components/Graph'
 import Category from '../components/Category'
 import Recent from '../components/Recent'
 import Leftsidebar from '../components/Leftsidebar'
-import AddForm from '../components/AddForm'
 
 
 
@@ -14,7 +13,6 @@ const App = () => {
   const IncomePercent = 20
   return (
     <div className=' flex justify-center flex-col  '>
-      <AddForm/>
 
       <Leftsidebar />
 
