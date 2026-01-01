@@ -11,7 +11,14 @@ await connectDB();
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
-
+app.get("/api/categories", async (req ,res)=>{
+    try {
+        const categories = await CategoryModel.find({})
+        res.status(200).json(categories)
+    } catch (error) {
+        res.status(500).json({message : "Server Error"})
+    }
+})
 
 app.post("/api/data",(req, res)=>{
     console.log(req.body);
