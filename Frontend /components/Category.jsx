@@ -1,35 +1,9 @@
 import axios from "axios";
 import Card from "./Card"
 import { House ,Apple,User,Pill,BookOpen,BusFront,HandCoins, ReceiptText } from 'lucide-react';
-import { useEffect,useState } from "react";
+import { useCategory } from "../context/CategoryProvider";
 const Category = () => {
-  const [categories, setcategories] = useState([])
-  async function getCategories() {
-    try {
-      const res = await axios.get("/api/categories")
-    return res.data
-    } catch (error) {
-      console.error("Error fetching categories:", error);
-    }
-    
-  }
-  useEffect(() => {
-  const fetchCategories = async () => {
-    try {
-      const data = await getCategories();
-      setcategories(data);
-    } catch (error) {
-      console.error("Failed to fetch categories:", error);
-    }
-  };
-
-  fetchCategories();
-  
-}, []);
-  
-  
- 
-  
+  const { categories } = useCategory();
   const icons = [House ,Apple,User,Pill,BookOpen,BusFront,HandCoins, ReceiptText ];
   return (
     <div className="w-full ">

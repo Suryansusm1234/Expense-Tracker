@@ -21,8 +21,10 @@ app.get("/api/categories", async (req ,res)=>{
 })
 
 app.post("/api/data",(req, res)=>{
+    const data =req.body;
     console.log(req.body);
-    res.send("Post Request Received")    
+    res.send("Post Request Received")
+    if (data.type === "Expense"){}
 })
 
 app.listen(8080,()=>{

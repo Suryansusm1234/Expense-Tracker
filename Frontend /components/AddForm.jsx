@@ -1,12 +1,16 @@
 import { useState } from "react";
 import { CircleX } from "lucide-react";
 import { addhandler } from "../utils/Addhandler";
-const AddForm = ({show, setshow}) => {    
+import { useCategory } from "../context/CategoryProvider";
+const AddForm = ({show, setshow}) => {  
+    const { categories } = useCategory();  
     const [green, setgreen] = useState(false)
     const [red, setred] = useState(false)
+    const [Category, setCategory] = useState(false)
     const [title, settitle] = useState()
     const [amount, setamount] = useState("0.00")
-    const [desc, setdesc] = useState("")    
+    const [desc, setdesc] = useState("")
+    const [CategoryValue, setCategoryValue] = useState("")     
   return (
     <>
     {show?<>
@@ -19,18 +23,21 @@ const AddForm = ({show, setshow}) => {
             </div>   
         <form action=""onSubmit={(e)=>{
             e.preventDefault();
-            addhandler({title, amount, desc, type: green ? "income" : "expense"});
+            console.log(id , value);
+            addhandler({title, amount, desc, type: green ? "income" : "expense" , category :CategoryValue });
             setshow(false);
         }}>
             <h2 className='text-2xl font-bold mb-4'>Add New Transaction</h2>
             <div className='flex items-center gap-4'>
-            <input type="button" value="Income" className={`${green?"bg-green-700":"bg-green-500"} rounded-2xl pl-2 pr-2  cursor-pointer hover:bg-green-600`}  onClick={()=>{
+            <input type="button" value="Income" className={`${green?"bg-green-600":"bg-green-500"} rounded-2xl pl-2 pr-2  cursor-pointer hover:bg-green-700`}  onClick={()=>{
                 setgreen(true);
                 setred(false);
+                 setCategory(false)
             }} />
-            <input type="button" value="Expense" className={`${red?"bg-red-700":"bg-red-500"} rounded-2xl pl-2 pr-2  cursor-pointer hover:bg-red-600`}  onClick={()=>{
+            <input type="button" value="Expense" className={`${red?"bg-red-700":"bg-red-400"} rounded-2xl pl-2 pr-2  cursor-pointer hover:bg-red-600`}  onClick={()=>{
                 setred(true);
                 setgreen(false);
+                setCategory(true)
             }} />
             </div>
             <div className='flex flex-col gap-4 mt-4'>
@@ -45,6 +52,21 @@ const AddForm = ({show, setshow}) => {
                 <textarea name="description" id="description" placeholder="Add some remarks" value={desc} className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" onChange={(e)=>{
                     setdesc(e.target.value)
                 }}></textarea>
+                {Category?
+               <select name="" id="" value={CategoryValue} className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 " required onChange={(e)=>{
+                console.log(e.target);
+
+                
+                setCategoryValue(e.target.value)
+               }}>
+                <option value="">Please select a category</option>
+                {categories && categories.map((category)=>(
+                    <>
+                    
+                    <option value={`${category.title}`} key={category._id} >{category.title}</option></>
+                ))}
+               </select>
+                :""}
             </div>
             <button type="submit" className='bg-blue-500 text-white rounded-md p-2 mt-4 w-full hover:bg-blue-700 cursor-pointer'>Add Transaction</button>
             
