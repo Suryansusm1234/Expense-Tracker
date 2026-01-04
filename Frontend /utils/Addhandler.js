@@ -6,7 +6,8 @@ export async function addhandler({title, amount, desc, type , category}) {
       "amount": amount,
       "desc": desc,
       "type": type,
-      "createdAt": dayjs().format("YYYY-MM-DD HH:mm:ss")
+      "createdAt": dayjs().format("YYYY-MM-DD HH:mm:ss"),
+      "updatedAt": dayjs().format("YYYY-MM-DD HH:mm:ss"),
     }
     if(type==="expense"){
       req.category= category

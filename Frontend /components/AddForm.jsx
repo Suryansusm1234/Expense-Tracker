@@ -23,7 +23,6 @@ const AddForm = ({show, setshow}) => {
             </div>   
         <form action=""onSubmit={(e)=>{
             e.preventDefault();
-            console.log(id , value);
             addhandler({title, amount, desc, type: green ? "income" : "expense" , category :CategoryValue });
             setshow(false);
         }}>
