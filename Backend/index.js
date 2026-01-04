@@ -1,7 +1,6 @@
 import express from "express"
-import ExpenseModel from "./modules/expense.js"
-import IncomeModel from "./modules/income.js"
 import CategoryModel from "./modules/category.js"
+import TransactionModel from "./modules/Transaction.js"
 import connectDB from "./modules/Db.js"
 const app = express()
 //Connection to the database
@@ -23,23 +22,11 @@ app.get("/api/categories", async (req, res) => {
 app.post("/api/data", async (req, res) => {
     const data = req.body;
     console.log(req.body);
-    if (data.type === "expense") {
-        try {
-            await ExpenseModel.create(data)
-            res.status(201)
-        } catch (error) {
-            res.status(500).json({ message: "Server Error" })
-        }
-
-    }
-    else {
-        try {
-            await IncomeModel.create(data)
-            res.status(201)
-        } catch (error) {
-            res.status(500).json({ message: "Server Error" })
-        }
-
+    try {
+        await TransactionModel.create(data)
+        res.status(201).json({ message: "Transaction created successfully" })
+    } catch (error) {
+        res.status(500).json({ message: "Server Error" })
     }
 })
 

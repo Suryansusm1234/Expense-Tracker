@@ -1,15 +1,23 @@
 import mongoose from "mongoose";
-const IncomeSchema = new mongoose.Schema({
-    title: {
+const TransactionSchema = new mongoose.Schema({
+     title: {
     type: String,
     required: [true, 'Please add a title'],
     trim: true
+  },
+  type:{
+    type:String,
+    required:[true,'Please specify the type of transaction'],
+    trim:true
   },
   amount: {
     type: Number,
     required: [true, 'Please add a positive or negative number']
   },
-  remarks:{
+  category: {
+    type: String,
+  },
+  desc:{
     type: String ,
     trim :true
   },
@@ -19,6 +27,6 @@ const IncomeSchema = new mongoose.Schema({
   updatedAt :{
     type :String,
   }
- })
- const IncomeModel = mongoose.model("income", IncomeSchema)
- export default IncomeModel
+})
+const TransactionModel = mongoose.model("Transaction", TransactionSchema)
+export default TransactionModel;
