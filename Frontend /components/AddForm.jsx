@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { CircleX } from "lucide-react";
 import { addhandler } from "../utils/Addhandler";
-import { useCategory } from "../context/CategoryProvider";
+import { useUniversal } from "../context/ContextProvider";
 const AddForm = ({show, setshow}) => {  
-    const { categories } = useCategory();  
+    const { categories , setTransaction } = useUniversal();  
     const [green, setgreen] = useState(false)
     const [red, setred] = useState(false)
     const [Category, setCategory] = useState(false)
@@ -11,6 +11,7 @@ const AddForm = ({show, setshow}) => {
     const [amount, setamount] = useState("0.00")
     const [desc, setdesc] = useState("")
     const [CategoryValue, setCategoryValue] = useState("")     
+    const [type, settype] = useState("income")
   return (
     <>
     {show?<>
@@ -21,9 +22,10 @@ const AddForm = ({show, setshow}) => {
                 setshow(false)
             }}/> 
             </div>   
-        <form action=""onSubmit={(e)=>{
-            e.preventDefault();
-            addhandler({title, amount, desc, type: green ? "income" : "expense" , category :CategoryValue });
+        <form action=""onSubmit={ (e)=>{
+            e.preventDefault(); 
+             
+             addhandler({title, amount, desc, type:type, category :CategoryValue , setTransaction : setTransaction }); 
             setshow(false);
         }}>
             <h2 className='text-2xl font-bold mb-4'>Add New Transaction</h2>
@@ -32,11 +34,13 @@ const AddForm = ({show, setshow}) => {
                 setgreen(true);
                 setred(false);
                  setCategory(false)
+                 settype("income")
             }} />
             <input type="button" value="Expense" className={`${red?"bg-red-700":"bg-red-400"} rounded-2xl pl-2 pr-2  cursor-pointer hover:bg-red-600`}  onClick={()=>{
                 setred(true);
                 setgreen(false);
                 setCategory(true)
+                 settype("expense")
             }} />
             </div>
             <div className='flex flex-col gap-4 mt-4'>

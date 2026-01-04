@@ -1,17 +1,28 @@
-import React from 'react'
-
+import { useUniversal } from "../context/ContextProvider"
 const Recent = () => {
+  const { Transaction } = useUniversal();
+  console.log(Transaction);
+  
   return (
     <div className="w-full">
       <h2 className='text-xl font-bold'>Recent Transactions</h2>
       <ul className='flex flex-col gap-3 mt-4'>
-        <li className='flex bg-white justify-between items-center p-4 rounded-2xl shadow-sm border border-gray-50 w-full'>
+        {Transaction && Transaction.slice(0, 3).map((transaction)=>{
+          return (
+             <li className='flex bg-white justify-between items-center p-4 rounded-2xl shadow-sm border border-gray-50 w-full'>
           <div className="flex flex-col">
-            <p className="text-xs text-gray-400">20 August</p>
-            <p className='font-bold text-slate-800'>Food</p>
+            <p className="text-xs text-gray-400">{transaction.createdAt}</p>
+            <p className='font-bold text-slate-800'>{transaction.title}</p>
           </div>
-          <p className='font-semibold text-red-500'>-$150.00</p>
+          {transaction.type === "income" ?
+          <p className='font-semibold text-green-500'>+${transaction.amount}</p>
+          :
+          <p className='font-semibold text-red-500'>-${transaction.amount}</p>
+        }
         </li>
+          )
+        })}
+{/*        
         <li className='flex bg-white justify-between items-center p-4 rounded-2xl shadow-sm border border-gray-50 w-full'>
           <div className="flex flex-col">
             <p className="text-xs text-gray-400">21 August</p>
@@ -25,7 +36,7 @@ const Recent = () => {
             <p className='font-bold text-slate-800'>Salary</p>
           </div>
           <p className='font-semibold text-green-500'>+$300.00</p>
-        </li>
+        </li> */}
       
       </ul>
     </div>

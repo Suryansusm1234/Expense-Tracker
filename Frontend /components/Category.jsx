@@ -1,9 +1,8 @@
-import axios from "axios";
 import Card from "./Card"
 import { House ,Apple,User,Pill,BookOpen,BusFront,HandCoins, ReceiptText } from 'lucide-react';
-import { useCategory } from "../context/CategoryProvider";
+import { useUniversal } from "../context/ContextProvider";
 const Category = () => {
-  const { categories } = useCategory();
+  const { categories } = useUniversal();
   const icons = [House ,Apple,User,Pill,BookOpen,BusFront,HandCoins, ReceiptText ];
   return (
     <div className="w-full ">

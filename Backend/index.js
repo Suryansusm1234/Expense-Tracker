@@ -21,15 +21,22 @@ app.get("/api/categories", async (req, res) => {
 
 app.post("/api/data", async (req, res) => {
     const data = req.body;
-    console.log(req.body);
     try {
-        await TransactionModel.create(data)
-        res.status(201).json({ message: "Transaction created successfully" })
+         const transaction = await TransactionModel.create(data)
+        res.status(201).json(transaction)
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+})
+
+app.get("/api/transaction", async (req, res)=>{
+    try {
+        const transactions = await TransactionModel.find({})
+        res.status(200).json(transactions)
     } catch (error) {
         res.status(500).json({ message: "Server Error" })
     }
 })
-
 app.listen(8080, () => {
     console.log("Running at port 8080");
 
