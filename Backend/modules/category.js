@@ -7,7 +7,14 @@ const CategorySchema = new mongoose.Schema({
     colour :{
         type :String,
         trim : true,
+    },
+    budgeted:{
+        type :Number,
+    },
+    actual:{
+        type:Number,
     }
+    
 })
 const CategoryModel = mongoose.model("category", CategorySchema)
 export default CategoryModel
