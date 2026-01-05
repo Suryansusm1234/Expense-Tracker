@@ -1,11 +1,13 @@
-import React from 'react'
-
-const BalanceSection = ({IncomePercent , ExpensePercent}) => {
+import { useUniversal } from "../context/ContextProvider"
+const BalanceSection = ({IncomePercent}) => {
+    const { user } =  useUniversal();
+    
+    
     return (
         <div className='bg-white rounded-lg shadow-md p-3'>
             <div className='lg:flex flex-col gap-5'>
                 <p className='text-2xl font-bold'>Bank Balance</p>
-                <p className='text-2xl font-medium italic text-cyan-600'>$15000</p>
+                <p className='text-2xl font-medium italic text-cyan-600'>${user?.balance}</p>
                 <div >
                     <div className=' rounded w-70 ' style={{backgroundImage: `linear-gradient(90deg,rgb(17, 196, 17) ${IncomePercent}% , rgb(226, 5, 5) ${IncomePercent}% )` , height: '1.5rem'}} ></div>
                     <div className='flex justify-between items-center w-70 '>

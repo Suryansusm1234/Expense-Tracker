@@ -12,7 +12,7 @@ const Card = ({Icon , title , budgeted , actual}) => {
       
       <div className="w-full mt-auto">
         <p className='italic text-[10px] sm:text-xs text-gray-500 mb-1'>${actual} of ${budgeted}</p>
-        <div className='w-full h-1.5 bg-gray-100 rounded-full overflow-hidden'>
+        <div className='w-full h-1.5 bg-gray-200 rounded-full overflow-hidden'>
           <div className='h-full bg-cyan-400 rounded-full w-1/2' style={{width:'70%'}}></div>
         </div>
       </div>

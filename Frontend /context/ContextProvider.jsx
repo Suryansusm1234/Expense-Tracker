@@ -4,53 +4,38 @@ import axios from 'axios'
 const CategoryProvider = ({children}) => {
    const [categories, setcategories] = useState([])
    const [Transaction, setTransaction] = useState()
+   const [user, setuser] = useState()
    // Fetch categories from the backend API
-  async function getCategories() {
+  async function getInitialData() {
     try {
-      const res = await axios.get("/api/categories")
+      const res = await axios.get("/api/initaldata")
     return res.data
     } catch (error) {
       console.error("Error fetching categories:", error);
     }
     
   }
-  async function getTransaction() {
-    try {
-      const res = await axios.get("/api/transaction")
-    return res.data
-    } catch (error) {
-      console.error("Error fetching Transaction:", error);
-    }
-  }
   useEffect(() => {
-  const fetchCategories = async () => {
+  const fetchInitialData = async () => {
     try {
-      const data = await getCategories();
-      setcategories(data);
+      const data = await getInitialData();
+      console.log(data);
+      
+      setcategories(data.categories);
+      setTransaction(data.transactions);
+      setuser(data.user);
     } catch (error) {
-      console.error("Failed to fetch categories:", error);
+      console.error("Failed to fetch inittal data:", error);
     }
   };
 
-  fetchCategories();
+ fetchInitialData();
   
 }, []);
 
-useEffect(()=>{
-  const fetchTransaction = async () => {
-    try {
-      const data = await getTransaction();
-      setTransaction(data);
-    } catch (error) {
-      console.error("Failed to fetch Transaction:", error);
-    }
-  };
-
-  fetchTransaction();
-},[])
   
   return (
-    <UniversalContext.Provider value={{ categories, Transaction, setTransaction }}>
+    <UniversalContext.Provider value={{ categories, Transaction, setTransaction , user , setuser }}>
       {children}
     </UniversalContext.Provider>
   )

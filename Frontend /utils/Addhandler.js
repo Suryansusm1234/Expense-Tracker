@@ -1,6 +1,6 @@
 import axios from 'axios'
 import dayjs from 'dayjs';
-export async function addhandler({title, amount, desc, type , category , setTransaction}) {
+export async function addhandler({title, amount, desc, type , category , setTransaction,user}) {
   const req = {
       "title": title,
       "amount": amount,
@@ -12,8 +12,14 @@ export async function addhandler({title, amount, desc, type , category , setTran
     if(type==="expense"){
       req.category= category
     }
-    const res = await axios.post("/api/data",req )
-    setTransaction(prev =>[res,...prev])
-   
+    await axios.post("/api/transaction",req )
+     setTransaction(prev =>[req,...prev])
+    const balanceUpdate = user
+    if(type ==="income"){
+      balanceUpdate.balance = balanceUpdate.balance + parseInt(amount)
+    }else{
+      balanceUpdate.balance = balanceUpdate.balance - parseInt(amount)
+    }
+   setuser(balanceUpdate)
     
   }
