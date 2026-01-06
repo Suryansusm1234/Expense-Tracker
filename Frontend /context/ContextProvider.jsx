@@ -5,7 +5,7 @@ const CategoryProvider = ({children}) => {
    const [categories, setcategories] = useState([])
    const [Transaction, setTransaction] = useState()
    const [user, setuser] = useState()
-   // Fetch categories from the backend API
+   // Fetch categories and transactions from the backend API
   async function getInitialData() {
     try {
       const res = await axios.get("/api/initaldata")
@@ -35,7 +35,7 @@ const CategoryProvider = ({children}) => {
 
   
   return (
-    <UniversalContext.Provider value={{ categories, Transaction, setTransaction , user , setuser }}>
+    <UniversalContext.Provider value={{ categories, Transaction, setTransaction , user , setuser,setcategories }}>
       {children}
     </UniversalContext.Provider>
   )

@@ -3,7 +3,7 @@ import { CircleX } from "lucide-react";
 import { addhandler } from "../utils/Addhandler";
 import { useUniversal } from "../context/ContextProvider";
 const AddForm = ({show, setshow}) => {  
-    const { categories , setTransaction,setuser, user } = useUniversal();  
+    const { categories , setTransaction,setuser, user, setcategories } = useUniversal();  
     const [green, setgreen] = useState(false)
     const [red, setred] = useState(false)
     const [Category, setCategory] = useState(false)
@@ -25,7 +25,7 @@ const AddForm = ({show, setshow}) => {
         <form action=""onSubmit={ (e)=>{
             e.preventDefault(); 
              
-             addhandler({title, amount, desc, type:type, category :CategoryValue , setTransaction : setTransaction , setuser:setuser,user:user }); 
+             addhandler({title, amount, desc, type:type, category :CategoryValue , setTransaction : setTransaction , setuser:setuser,user:user , categories:categories,setcategories: setcategories}); 
             setshow(false);
         }}>
             <h2 className='text-2xl font-bold mb-4'>Add New Transaction</h2>

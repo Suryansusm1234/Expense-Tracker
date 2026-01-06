@@ -12,15 +12,15 @@ app.use(express.urlencoded({ extended: true }))
 
 app.get("/api/initaldata", async (req, res) => {
     try {
-        const categories = await CategoryModel.find({})    
-        const user = await UserModel.findOne({}) 
+        const categories = await CategoryModel.find({})
+        const user = await UserModel.findOne({})
         console.log(user);
-        
-          const transactions = await TransactionModel.find({})
+
+        const transactions = await TransactionModel.find({})
         res.status(200).json({ categories, user, transactions })
-    } 
-  
-     catch (error) {
+    }
+
+    catch (error) {
         res.status(500).json({ message: "Server Error" })
     }
 })
@@ -28,13 +28,21 @@ app.get("/api/initaldata", async (req, res) => {
 app.post("/api/transaction", async (req, res) => {
     const data = req.body;
     try {
-         const transaction = await TransactionModel.create(data)
-         if (transaction.type === 'expense') {
+        const transaction = await TransactionModel.create(data)
+        if (transaction.type === 'expense') {
             await UserModel.updateOne({}, { $inc: { balance: -transaction.amount } })
-            await CategoryModel.updateOne({ title: transaction.category }, { $inc: { actual: transaction.amount } })
-         }else{
+            const updatedCategory = await CategoryModel.findOneAndUpdate(
+                { title: transaction.category },
+                { $inc: { actual: transaction.amount } },
+                { new: true })
+            if (updatedCategory) {
+                const newUtilization = Math.floor((updatedCategory.actual / updatedCategory.budgeted) * 100);
+                updatedCategory.utilization = newUtilization;
+                await updatedCategory.save();
+            }
+        } else {
             await UserModel.updateOne({}, { $inc: { balance: transaction.amount } })
-         }
+        }
         res.status(201).json(transaction)
     } catch (error) {
         res.status(500).json({ message: error.message })
@@ -45,5 +53,4 @@ app.listen(8080, () => {
     console.log("Running at port 8080");
 
 })
-
 

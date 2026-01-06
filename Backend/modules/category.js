@@ -13,6 +13,9 @@ const CategorySchema = new mongoose.Schema({
     },
     actual:{
         type:Number,
+    },
+    utilization:{
+        type :Number,
     }
     
 })
