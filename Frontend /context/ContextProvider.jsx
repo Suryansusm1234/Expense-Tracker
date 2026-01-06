@@ -6,6 +6,10 @@ const CategoryProvider = ({children}) => {
    const [Transaction, setTransaction] = useState()
    const [user, setuser] = useState()
    const [loading, setloading] = useState(true)
+   const [filter, setfilter] = useState("all")
+   const [start, setstart] = useState()
+    const [end, setend] = useState()
+
    // Fetch categories and transactions from the backend API
   async function getInitialData() {
     try {
@@ -37,7 +41,7 @@ const CategoryProvider = ({children}) => {
 
   
   return (
-    <UniversalContext.Provider value={{ categories, Transaction, setTransaction , user , setuser,setcategories }}>
+    <UniversalContext.Provider value={{ categories, Transaction, setTransaction , user , setuser,setcategories, filter, setfilter,start,setstart,end,setend }}>
       {loading?<div>Loading App Data...</div>: children}
      
     </UniversalContext.Provider>
