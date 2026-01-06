@@ -3,7 +3,6 @@ import { House ,Apple,User,Pill,BookOpen,BusFront,HandCoins, ReceiptText } from 
 import { useUniversal } from "../context/ContextProvider";
 const Category = () => {
   const { categories } = useUniversal();
-   console.log(categories);
   const icons = [House ,Apple,User,Pill,BookOpen,BusFront,HandCoins, ReceiptText ];
   return (
     <div className="w-full ">

@@ -20,7 +20,6 @@ const CategoryProvider = ({children}) => {
   const fetchInitialData = async () => {
     try {
       const data = await getInitialData();
-      console.log(data);
       
       setcategories(data.categories);
       setTransaction(data.transactions);

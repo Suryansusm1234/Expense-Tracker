@@ -1,7 +1,6 @@
 import { useUniversal } from "../context/ContextProvider"
 const Recent = () => {
   const { Transaction } = useUniversal();
-  console.log(Transaction);
   
   return (
     <div className="w-full">

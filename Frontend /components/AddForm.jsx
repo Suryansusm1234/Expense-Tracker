@@ -57,7 +57,6 @@ const AddForm = ({show, setshow}) => {
                 }}></textarea>
                 {Category?
                <select name="" id="" value={CategoryValue} className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 " required onChange={(e)=>{
-                console.log(e.target);
 
                 
                 setCategoryValue(e.target.value)

@@ -9,7 +9,6 @@ const BalanceSection = () => {
     const [burn, setburn] = useState()
     useEffect(() => {
         const {$D,$M , $y} = dayjs()
-        console.log(typeof $D);
         
       let month = $M +1
       let year = $y        

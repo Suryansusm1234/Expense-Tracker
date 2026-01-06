@@ -1,5 +1,4 @@
 const Card = ({Icon , title , budgeted , actual,percent}) => {
-  console.log(percent);
   
   return (
     <div className=" flex flex-col gap-3 p-3 sm:p-4 rounded-2xl shadow-sm border border-gray-100 h-full bg-white" >
