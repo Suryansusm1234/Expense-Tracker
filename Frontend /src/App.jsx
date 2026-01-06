@@ -10,7 +10,6 @@ import Leftsidebar from '../components/Leftsidebar'
 
 const App = () => {
 
-  const IncomePercent = 20
   return (
     <div className=' flex justify-center flex-col  '>
 
@@ -20,7 +19,7 @@ const App = () => {
       <div className='lg:grid-cols-3 sm:grid-cols-1 grid gap-4 ml-4 mr-2 mb-5 pl-5  mt-3 relative' >
 
         <User />
-        <BalanceSection IncomePercent={IncomePercent} ExpensePercent={80} />
+        <BalanceSection  />
         <Graph />
       </div>
       <div className='flex flex-col lg:flex-row gap-4  pl-5 pr-5 '>
