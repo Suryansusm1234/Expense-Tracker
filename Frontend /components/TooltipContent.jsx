@@ -1,5 +1,3 @@
-import React from 'react'
-
 const TooltipContent = ({ active, payload }) => {
     
   if (active && payload && payload.length) {

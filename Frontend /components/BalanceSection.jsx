@@ -29,7 +29,8 @@ const BalanceSection = () => {
             totalexpese = totalexpese + parseInt(tran.amount)
         }
     });
-    setburn(Math.round(sum /$D))
+    const burnrate = Math.round(sum/$D)
+    setburn(burnrate)
     setIncomePercent(Math.round((totalexpese/totalincome)*100))
     }, [Transaction])
    
