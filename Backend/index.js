@@ -105,5 +105,5 @@ app.post("/api/update", async (req, res) => {
         res.status(500).json({ message: "Server Error", error: error.message });
     }
 })
-app.listen(process.env.PORT)
+app.listen(process.env.PORT || 8080)
 
