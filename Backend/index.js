@@ -47,6 +47,55 @@ app.post("/api/transaction", async (req, res) => {
     }
 })
 
+app.post("/api/update", async (req, res) => {
+    const { username, bankBalance, updatedCategories } = req.body;
+    try {
+        const updatedUser = await UserModel.findOneAndUpdate(
+            {},
+            {
+                username: username,
+                balance: Number(bankBalance)
+            },
+            { new: true }
+        );
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        const categoriesToUpdate = updatedCategories.filter(cat => {
+            return typeof cat.budgeted === 'string' || typeof cat.actual === 'string';
+        });
+        
+        for (const cat of categoriesToUpdate) {
+            // 1. Fetch the document first
+            const categoryDoc = await CategoryModel.findById(cat._id);
+
+            if (categoryDoc) {
+                // 2. Apply the new values (converting strings to numbers)
+                categoryDoc.budgeted = Number(cat.budgeted);
+                categoryDoc.actual = Number(cat.actual);
+
+                // 3. Recalculate utilization
+                // Handle division by zero just in case budget is 0
+                if (categoryDoc.budgeted > 0) {
+                    categoryDoc.utilization = Math.round((categoryDoc.actual / categoryDoc.budgeted) * 100);
+                } else {
+                    categoryDoc.utilization = 0;
+                }
+                await categoryDoc.save();
+            }
+        }
+        const finalCategories = await CategoryModel.find({});
+        res.status(200).json({
+            success: true,
+            message: "Settings updated successfully",
+            categories: finalCategories
+        });
+    } catch (error) {
+        console.error("Update Error:", error);
+        res.status(500).json({ message: "Server Error", error: error.message });
+    }
+})
 app.listen(8080, () => {
     console.log("Running at port 8080");
 

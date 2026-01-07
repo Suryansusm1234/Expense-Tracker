@@ -7,10 +7,12 @@ const SearchBar = ({ setfilter, start, setstart, end, setend, Transactions }) =>
     const [Input, setInput] = useState()
     const [show, setshow] = useState(false)
     const [showbox, setshowbox] = useState(false)
-    const [Filter, setFilter] = useState("")
+    const [Filter, setFilter] = useState([])
     useEffect(() => {
 
         search({ Transactions, Input, setFilter })
+        console.log(Filter);
+        
 
     }, [Input])
 
@@ -54,9 +56,7 @@ const SearchBar = ({ setfilter, start, setstart, end, setend, Transactions }) =>
                                                 </p>
 
                                             </div>
-                                            <div>
-                                                <p className="italic text-sm">{tran.createdAt.split(" ")[0]}</p>
-                                            </div>
+                                           
                                         </div>
 
                                         <div className={`p-2 rounded-full ${tran.type === "income" ? "bg-green-50" : "bg-red-50"}`}>
