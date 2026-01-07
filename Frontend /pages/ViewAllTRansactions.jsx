@@ -1,6 +1,9 @@
 import SearchBar from "../components/SearchBar"
 import { useUniversal } from "../context/ContextProvider"
 import { TrendingDown, TrendingUp } from "lucide-react"
+import Leftsidebar from '../components/Leftsidebar'
+
+  
 const ViewAllTRansactions = () => {
   const { Transaction, filter, setfilter,start,setstart,end,setend } = useUniversal()
   const filteredTransactions = Transaction.filter((tran) => {
@@ -24,6 +27,8 @@ const ViewAllTRansactions = () => {
 
   return (
     <div>
+           <Leftsidebar />
+
       <SearchBar filter={filter} setfilter={setfilter} start ={start} setstart={setstart} end = {end} setend={setend} Transactions= {Transaction}/>
       <div className="flex justify-center flex-col items-center overflow-hidden mt-3 overflow-x-hidden overflow-y-auto ">
         <h2 className="font-bold text-2xl mb-2">All Transactions</h2>
