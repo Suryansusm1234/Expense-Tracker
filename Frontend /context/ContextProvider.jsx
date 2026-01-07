@@ -13,7 +13,7 @@ const CategoryProvider = ({children}) => {
    // Fetch categories and transactions from the backend API
   async function getInitialData() {
     try {
-      const res = await axios.get("/api/initaldata")
+      const res = await axios.get(`${import.meta.env.VITE_API}/initaldata`)
     return res.data
     } catch (error) {
       console.error("Error fetching categories:", error);

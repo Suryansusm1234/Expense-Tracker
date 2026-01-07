@@ -1,9 +1,18 @@
+import dotenv from 'dotenv';
+dotenv.config()
+import cors from "cors";
 import express from "express"
 import CategoryModel from "./modules/category.js"
 import TransactionModel from "./modules/Transaction.js"
 import connectDB from "./modules/Db.js"
 import UserModel from "./modules/user.js"
 const app = express()
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+  })
+);
 //Connection to the database
 await connectDB();
 
@@ -96,8 +105,5 @@ app.post("/api/update", async (req, res) => {
         res.status(500).json({ message: "Server Error", error: error.message });
     }
 })
-app.listen(8080, () => {
-    console.log("Running at port 8080");
-
-})
+app.listen(process.env.PORT)
 

@@ -7,7 +7,7 @@ export async function settingsHandler({ username,bankBalance,updatedCategories,s
     }
     console.log(req);
     
-    const res = await axios.post("/api/update",req)
+    const res = await axios.post(`${import.meta.env.VITE_API}/update`,req)
     if (res.data.success) {
         setcategories(res.data.categories)
         const newuser = {username: username, balance : bankBalance }

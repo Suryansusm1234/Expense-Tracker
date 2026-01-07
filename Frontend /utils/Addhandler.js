@@ -19,7 +19,7 @@ export async function addhandler({title, amount, desc, type , category , setTran
       }
       setcategories(newCategories)
     }
-    await axios.post("/api/transaction",req )
+    await axios.post(`${import.meta.env.VITE_API}/transaction`,req )
      setTransaction(prev =>[req,...prev])
     const balanceUpdate = user
     if(type ==="income"){
