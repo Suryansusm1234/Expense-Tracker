@@ -9,8 +9,6 @@ const ViewAllTRansactions = () => {
   if (start || end) {
     const [datePart] = tran.createdAt.split(' ');
         const [day, month, year] = datePart.split('-').map(Number);
-        console.log(day, month, year , typeof day);
-        
         const tranDate = new Date(year, month - 1, day); 
         tranDate.setHours(0, 0, 0, 0);
         const startDate = start ? new Date(start) : null;
@@ -26,7 +24,7 @@ const ViewAllTRansactions = () => {
 
   return (
     <div>
-      <SearchBar filter={filter} setfilter={setfilter} start ={start} setstart={setstart} end = {end} setend={setend}/>
+      <SearchBar filter={filter} setfilter={setfilter} start ={start} setstart={setstart} end = {end} setend={setend} Transactions= {Transaction}/>
       <div className="flex justify-center flex-col items-center overflow-hidden mt-3 overflow-x-hidden overflow-y-auto ">
         <h2 className="font-bold text-2xl mb-2">All Transactions</h2>
         <ul className="lg:w-3xl  pl-3 pr-3 rounded-2xl sm:w-2xs ">

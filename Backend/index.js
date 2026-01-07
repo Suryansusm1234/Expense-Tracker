@@ -14,8 +14,6 @@ app.get("/api/initaldata", async (req, res) => {
     try {
         const categories = await CategoryModel.find({})
         const user = await UserModel.findOne({})
-        console.log(user);
-
         const transactions = await TransactionModel.find({}).sort({ createdAt: -1 })
         res.status(200).json({ categories, user, transactions })
     }
