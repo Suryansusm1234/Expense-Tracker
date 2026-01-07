@@ -12,7 +12,7 @@ const SearchBar = ({ setfilter, start, setstart, end, setend, Transactions }) =>
 
         search({ Transactions, Input, setFilter })
         console.log(Filter);
-        
+
 
     }, [Input])
 
@@ -56,7 +56,7 @@ const SearchBar = ({ setfilter, start, setstart, end, setend, Transactions }) =>
                                                 </p>
 
                                             </div>
-                                           
+
                                         </div>
 
                                         <div className={`p-2 rounded-full ${tran.type === "income" ? "bg-green-50" : "bg-red-50"}`}>

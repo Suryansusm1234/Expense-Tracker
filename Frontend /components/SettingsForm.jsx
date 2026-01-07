@@ -24,8 +24,8 @@ const SettingsForm = ({ show, setshow }) => {
   }, [show, user, categories]);
   const handleCategoryChange = (index, field, value) => {
     const updatedCats = [...localCategories];
-   
-    
+
+
     updatedCats[index][field] = value;
     setLocalCategories(updatedCats);
 
@@ -50,7 +50,7 @@ const SettingsForm = ({ show, setshow }) => {
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
-                 
+
                   settingsHandler({
                     username,
                     bankBalance,
@@ -109,7 +109,7 @@ const SettingsForm = ({ show, setshow }) => {
                           <div className="flex-1">
                             <label className="text-[10px] text-slate-400 font-bold uppercase">Budget</label>
                             <input
-                            placeholder="Enter the budget"
+                              placeholder="Enter the budget"
                               type="number"
                               value={cat.budgeted}
                               onChange={(e) => handleCategoryChange(index, "budgeted", e.target.value)}
@@ -133,7 +133,7 @@ const SettingsForm = ({ show, setshow }) => {
                   )}
                 </div>
 
-              
+
                 <button
                   type="submit"
                   className='bg-slate-900 text-white font-bold rounded-xl p-3 mt-6 w-full hover:bg-slate-800 transition-colors cursor-pointer flex items-center justify-center gap-2'

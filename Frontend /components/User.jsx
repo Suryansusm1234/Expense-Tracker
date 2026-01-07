@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import { RemainingDays } from '../utils/remainingdays';
 import { useUniversal } from '../context/ContextProvider';
 const User = () => {
-  const {user} = useUniversal()
+  const { user } = useUniversal()
   const { weekdays, weekends } = RemainingDays();
   return (
     <div className=' bg-white p-4 rounded-lg shadow-md' >
@@ -13,7 +13,7 @@ const User = () => {
         <p className='text-xl font-semibold'>Hello,</p>
         <p className='font-medium text-2xl'>{user.username}</p>
         <p className='font-light text-gray-400 text-sm'>{dayjs().format("DD MMMM, dddd")}</p>
-        <Progressbar percentage={Math.round((dayjs().date()/dayjs().daysInMonth())*100)} />
+        <Progressbar percentage={Math.round((dayjs().date() / dayjs().daysInMonth()) * 100)} />
         <p>Remaining Days:</p>
         <div className="grid grid-cols-[20px_25px_1fr] items-center gap-y-1">
           <span className="w-3 h-3 rounded-full bg-cyan-400"></span>
