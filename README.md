@@ -1,4 +1,4 @@
-# 💰 Expense Tracker [lIVE URL](https://expense-tracker-peach-kappa-52.vercel.app/)
+# 💰 Expense Tracker [live url](https://expense-tracker-peach-kappa-52.vercel.app/)
 
 A full-stack expense tracking application that helps users manage their finances, track spending by category, set budgets, and visualize their financial data.
 
