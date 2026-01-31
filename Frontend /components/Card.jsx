@@ -3,7 +3,7 @@ const Card = ({Icon , title , budgeted , actual,percent}) => {
   return (
     <div className=" flex flex-col gap-3 p-3 sm:p-4 rounded-2xl shadow-sm border border-gray-100 h-full bg-white" >
      
-      <button className='rounded-full w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center bg-cyan-100 text-cyan-600'>
+      <button className='rounded-full w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center bg-cyan-100 text-cyan-600 '>
       <Icon size={18 } />
       </button>
       
