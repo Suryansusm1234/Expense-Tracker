@@ -1,11 +1,13 @@
-import { createContext, useContext,useState,useEffect } from 'react'
+import { createContext, useContext, useState, useEffect } from 'react'
 const UniversalContext = createContext()
 import axios from 'axios'
+import { getMockInitialData } from '../utils/mockInitialData.js'
 const CategoryProvider = ({children}) => {
    const [categories, setcategories] = useState([])
    const [Transaction, setTransaction] = useState()
    const [user, setuser] = useState()
    const [loading, setloading] = useState(true)
+   const [usingMockData, setUsingMockData] = useState(false)
    const [filter, setfilter] = useState("all")
    const [start, setstart] = useState()
     const [end, setend] = useState()
@@ -13,10 +15,19 @@ const CategoryProvider = ({children}) => {
    // Fetch categories and transactions from the backend API
   async function getInitialData() {
     try {
-      const res = await axios.get(`${import.meta.env.VITE_API}/initaldata`)
-    return res.data
+      setUsingMockData(false)
+      const res = await axios.get(`${import.meta.env.VITE_API}/initaldata`, {
+        timeout: 4500,
+      })
+      const data = res?.data
+      if (!data || !Array.isArray(data.categories) || !Array.isArray(data.transactions) || !data.user) {
+        throw new Error('Invalid initial data payload')
+      }
+      return data
     } catch (error) {
       console.error("Error fetching categories:", error);
+      setUsingMockData(true)
+      return getMockInitialData()
     }
     
   }
@@ -41,8 +52,19 @@ const CategoryProvider = ({children}) => {
 
   
   return (
-    <UniversalContext.Provider value={{ categories, Transaction, setTransaction , user , setuser,setcategories, filter, setfilter,start,setstart,end,setend }}>
-      {loading?<div>Loading App Data...</div>: children}
+    <UniversalContext.Provider value={{ categories, Transaction, setTransaction , user , setuser,setcategories, filter, setfilter,start,setstart,end,setend, usingMockData }}>
+      {loading ? (
+        <div>Loading App Data...</div>
+      ) : (
+        <>
+          {usingMockData ? (
+            <div className="px-3 py-2 text-sm bg-amber-50 text-amber-900 border-b border-amber-200">
+              Backend is slow/unavailable — showing mock data.
+            </div>
+          ) : null}
+          {children}
+        </>
+      )}
      
     </UniversalContext.Provider>
   )
