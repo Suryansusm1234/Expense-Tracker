@@ -6,6 +6,9 @@ const UserSchema = new mongoose.Schema({
     },
     balance :{
         type :Number,
+    },
+    password :{
+        type :String,
     }
 })
 const UserModel = mongoose.model("user", UserSchema)

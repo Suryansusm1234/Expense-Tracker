@@ -31,7 +31,7 @@ const SearchBar = ({ setfilter, start, setstart, end, setend, Transactions }) =>
 
 
                 }} />
-                {showbox ? <div className="absolute top-12 lg:w-100 sm:w-50 left-[35%]  p-2 rounded bg-white h-100  overflow-y-auto ">
+                {showbox ? <div className="absolute top-20 lg:w-100 sm:w-50 left-[35%]  p-2 rounded bg-white h-100  overflow-y-auto ">
                     <ul className="">
                         {Filter && Filter.length === 0 ? <div className=" z-50 flex flex-col items-center justify-center py-12 px-4 text-center">
                             <div className="bg-slate-50 p-4 rounded-full mb-4">
@@ -130,6 +130,7 @@ const SearchBar = ({ setfilter, start, setstart, end, setend, Transactions }) =>
                             setfilter("all")
                             setstart("")
                             setend("")
+                            setshow(false)
                         }}>
                             <X size={14} /> Reset Filters
                         </button>

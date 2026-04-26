@@ -1,17 +1,29 @@
 import  { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Lock, User, ArrowRight, ShieldCheck } from 'lucide-react';
+import { useUniversal } from '../context/ContextProvider.jsx';
+import { api } from '../utils/apiClient.js';
+const DEMO_USERNAME = import.meta.env.VITE_DEMO_USERNAME;
+const DEMO_PASSWORD = import.meta.env.VITE_DEMO_PASSWORD;
 
 const LoginPage = () => {
     const navigate = useNavigate();
+    const { loginAndFetch } = useUniversal();
     const [loading, setLoading] = useState(false);
+    const [username, setusername] = useState()
+    const [password, setpassword] = useState()
 
-    const handleDemoLogin = () => {
+    const handleLogin = async() => {
         setLoading(true);
-        // Simulate a small delay for realism
-        setTimeout(() => {
-            navigate('/Dashboard');
-        }, 800);
+        const res = await api.post(`/login`, { username, password })
+       if(res.data.success){
+        setLoading(false);
+        loginAndFetch(); // Fetch initial data after successful login
+        navigate('/dashboard');
+       }else{
+        setLoading(false);
+       }
+            
     };
 
     return (
@@ -30,34 +42,36 @@ const LoginPage = () => {
               
                 <div className="space-y-4">
                     <div className="space-y-2">
-                        <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-1">Username</label>
-                        <div className="relative flex items-center">
+                        <label className="text-[10px] font-bold uppercase tracking-widest text-black-400 ml-1">Username</label>
+                        <div className="relative flex items-center focus-within:ring-2 focus-within:ring-blue-600 rounded-2xl">
                             <User className="absolute left-4 text-slate-400" size={18} />
                             <input 
                                 type="text" 
-                                disabled
-                                placeholder="admin_demo" 
-                                className="w-full bg-slate-50 border border-slate-200 rounded-2xl py-4 pl-12 pr-4 text-sm outline-none cursor-not-allowed opacity-60"
+                                placeholder="Username" 
+                                value = {username}
+                                onChange={(e) => setusername(e.target.value)}
+                                className="w-full bg-slate-50 border border-slate-200 rounded-2xl py-4 pl-12 pr-4 text-sm outline-none cursor-pointer opacity-60"
                             />
                         </div>
                     </div>
 
                     <div className="space-y-2">
                         <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-1">Password</label>
-                        <div className="relative flex items-center">
+                        <div className="relative flex items-center focus-within:ring-2 focus-within:ring-blue-600 rounded-2xl">
                             <Lock className="absolute left-4 text-slate-400" size={18} />
                             <input 
                                 type="password" 
-                                disabled
-                                placeholder="••••••••" 
-                                className="w-full bg-slate-50 border border-slate-200 rounded-2xl py-4 pl-12 pr-4 text-sm outline-none cursor-not-allowed opacity-60"
+                                placeholder="Password" 
+                                value = {password}
+                                onChange={(e) => setpassword(e.target.value)}
+                                className="w-full bg-slate-50 border border-slate-200 rounded-2xl py-4 pl-12 pr-4 text-sm outline-none cursor-pointer opacity-60"
                             />
                         </div>
                     </div>
 
                  
                     <button 
-                        onClick={handleDemoLogin}
+                        onClick={handleLogin}
                         className="w-full bg-slate-900 hover:bg-black text-white font-bold py-4 rounded-2xl mt-4 transition-all flex items-center justify-center gap-2 group active:scale-95"
                     >
                         {loading ? (
@@ -72,10 +86,18 @@ const LoginPage = () => {
                 </div>
 
               
-                <div className="mt-8 pt-8 border-t border-slate-100 text-center">
-                    <p className="text-xs text-slate-400 font-medium leading-relaxed px-4">
-                        <span className="text-blue-600 font-bold">Recruiter Note:</span> This is a demo version. No credentials are required to explore the dashboard.
-                    </p>
+                <div className="mt-8 pt-8 border-t border-slate-100 text-center flex items-center justify-center gap-2">
+                   <input type="checkbox" name="Recruiter " id="" onClick={()=>{
+                    if(username === "Recruiter" && password === "Recruiter123"){
+                        setusername("")
+                    setpassword("")
+                    }else{
+                     setusername(DEMO_USERNAME)
+                    setpassword(DEMO_PASSWORD)   
+                    }
+                    
+                   }} />
+                   <p className=''>Recruiter Login</p>
                 </div>
             </div>
         </div>

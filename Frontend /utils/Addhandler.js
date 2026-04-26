@@ -1,5 +1,5 @@
-import axios from 'axios'
 import dayjs from 'dayjs';
+import { api } from './apiClient.js';
 export async function addhandler({title, amount, desc, type , category , setTransaction,user,setuser,categories,setcategories}) {
    const newCategories = categories
   const req = {
@@ -19,7 +19,7 @@ export async function addhandler({title, amount, desc, type , category , setTran
       }
       setcategories(newCategories)
     }
-    await axios.post(`${import.meta.env.VITE_API}/transaction`,req )
+    await api.post(`/transaction`,req )
      setTransaction(prev =>[req,...prev])
     const balanceUpdate = user
     if(type ==="income"){
