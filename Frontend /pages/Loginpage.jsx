@@ -10,20 +10,28 @@ const LoginPage = () => {
     const navigate = useNavigate();
     const { loginAndFetch } = useUniversal();
     const [loading, setLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
     const [username, setusername] = useState()
     const [password, setpassword] = useState()
+    const isRecruiterChecked = username === DEMO_USERNAME && password === DEMO_PASSWORD
 
     const handleLogin = async() => {
-        setLoading(true);
-        const res = await api.post(`/login`, { username, password })
-       if(res.data.success){
-        setLoading(false);
-        loginAndFetch(); // Fetch initial data after successful login
-        navigate('/dashboard');
-       }else{
-        setLoading(false);
-       }
-            
+        setLoading(true)
+        setErrorMessage("")
+        try {
+            const res = await api.post(`/login`, { username, password })
+            if(res.data.success){
+                await loginAndFetch(); // Fetch initial data after successful login
+                navigate('/dashboard');
+            }else{
+                setErrorMessage("Login failed. Please check your credentials and try again.")
+            }
+        } catch (error) {
+            const serverMessage = error?.response?.data?.message
+            setErrorMessage(serverMessage ? `Login failed: ${serverMessage}` : "Login failed. Please try again.")
+        } finally {
+            setLoading(false)
+        }
     };
 
     return (
@@ -42,7 +50,7 @@ const LoginPage = () => {
               
                 <div className="space-y-4">
                     <div className="space-y-2">
-                        <label className="text-[10px] font-bold uppercase tracking-widest text-black-400 ml-1">Username</label>
+                        <label className="text-[10px] font-bold uppercase tracking-widest text-slate-400 ml-1">Username</label>
                         <div className="relative flex items-center focus-within:ring-2 focus-within:ring-blue-600 rounded-2xl">
                             <User className="absolute left-4 text-slate-400" size={18} />
                             <input 
@@ -50,7 +58,7 @@ const LoginPage = () => {
                                 placeholder="Username" 
                                 value = {username}
                                 onChange={(e) => setusername(e.target.value)}
-                                className="w-full bg-slate-50 border border-slate-200 rounded-2xl py-4 pl-12 pr-4 text-sm outline-none cursor-pointer opacity-60"
+                                className="w-full bg-slate-50 border border-slate-200 rounded-2xl py-4 pl-12 pr-4 text-sm outline-none"
                             />
                         </div>
                     </div>
@@ -83,21 +91,32 @@ const LoginPage = () => {
                             </>
                         )}
                     </button>
+
+                    {errorMessage ? (
+                        <p className="text-sm text-red-600 font-medium">{errorMessage}</p>
+                    ) : null}
                 </div>
 
               
                 <div className="mt-8 pt-8 border-t border-slate-100 text-center flex items-center justify-center gap-2">
-                   <input type="checkbox" name="Recruiter " id="" onClick={()=>{
-                    if(username === "Recruiter" && password === "Recruiter123"){
-                        setusername("")
-                    setpassword("")
-                    }else{
-                     setusername(DEMO_USERNAME)
-                    setpassword(DEMO_PASSWORD)   
-                    }
-                    
-                   }} />
-                   <p className=''>Recruiter Login</p>
+                   <input
+                        id="recruiter-checkbox"
+                        type="checkbox"
+                        name="Recruiter"
+                        checked={isRecruiterChecked}
+                        onChange={(e) => {
+                            if (e.target.checked) {
+                                setusername(DEMO_USERNAME)
+                                setpassword(DEMO_PASSWORD)
+                            } else {
+                                setusername("")
+                                setpassword("")
+                            }
+                        }}
+                    />
+                   <label htmlFor="recruiter-checkbox" className="cursor-pointer">
+                        Recruiter Login
+                   </label>
                 </div>
             </div>
         </div>

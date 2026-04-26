@@ -1,31 +1,42 @@
 import dayjs from 'dayjs';
 import { api } from './apiClient.js';
 export async function addhandler({title, amount, desc, type , category , setTransaction,user,setuser,categories,setcategories}) {
-   const newCategories = categories
+   const amountNumber = parseInt(amount)
+   const currentCategories = Array.isArray(categories) ? categories : []
   const req = {
       "title": title,
-      "amount": amount,
+      "amount": amountNumber,
       "desc": desc,
       "type": type,
       "createdAt": dayjs().format("DD-MM-YYYY HH:mm:ss"),
       "updatedAt": dayjs().format("DD-MM-YYYY HH:mm:ss"),
     }
+    let nextCategories = currentCategories
     if(type==="expense"){
       req.category= category
-      const categoryIndex = newCategories.findIndex((cat)=> cat.title === category)
-      if(categoryIndex !== -1){
-        newCategories[categoryIndex].actual = newCategories[categoryIndex].actual + parseInt(amount)
-        newCategories[categoryIndex].utilization = Math.floor((newCategories[categoryIndex].actual/newCategories[categoryIndex].budgeted)*100)
+      nextCategories = currentCategories.map((cat) => {
+        if (cat.title !== category) return cat
+        const nextActual = (cat.actual || 0) + amountNumber
+        const nextUtilization =
+          cat.budgeted > 0 ? Math.floor((nextActual / cat.budgeted) * 100) : 0
+        return { ...cat, actual: nextActual, utilization: nextUtilization }
+      })
+    }
+
+    try {
+      const res = await api.post(`/transaction`,req )
+      const saved = res?.data ?? req
+
+      if (type === "expense") {
+        setcategories(nextCategories)
       }
-      setcategories(newCategories)
+      setTransaction(prev =>[saved,...(prev || [])])
+
+      const currentBalance = user?.balance || 0
+      const nextBalance = type === "income" ? currentBalance + amountNumber : currentBalance - amountNumber
+      setuser({ ...(user || {}), balance: nextBalance })
+    } catch (error) {
+      console.error("Failed to add transaction:", error);
+      throw error
     }
-    await api.post(`/transaction`,req )
-     setTransaction(prev =>[req,...prev])
-    const balanceUpdate = user
-    if(type ==="income"){
-      balanceUpdate.balance = balanceUpdate.balance + parseInt(amount)
-    }else{
-      balanceUpdate.balance = balanceUpdate.balance - parseInt(amount)
-    }
-   setuser(balanceUpdate)
   }

@@ -46,9 +46,13 @@ const CategoryProvider = ({children}) => {
   }
 
   // Call this after successful login
-  function loginAndFetch() {
+  async function loginAndFetch() {
     setIsAuthenticated(true)
-    getInitialData()
+    try {
+      await getInitialData()
+    } catch (error) {
+      console.error("Failed to fetch initial data after login:", error);
+    }
   }
 
   

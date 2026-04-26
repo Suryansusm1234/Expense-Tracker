@@ -46,6 +46,7 @@ app.post("/api/login", async (req, res) => {
         httpOnly: true,  
         secure: isProd,
         sameSite: isProd ? "none" : "lax",
+        maxAge: 60 * 60 * 1000,
     });
     res.json({ success: true });
 });
