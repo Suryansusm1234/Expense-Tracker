@@ -71,7 +71,7 @@ const CategoryProvider = ({children}) => {
         <>
           {usingMockData ? (
             <div className="px-3 py-2 text-sm bg-amber-50 text-amber-900 border-b border-amber-200">
-              Backend is unavailable — showing mock data.
+              Backend is busy — Thanks for your patience.
             </div>
           ) : null}
           {children}
