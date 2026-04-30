@@ -9,6 +9,7 @@ import UserModel from "./modules/user.js"
 import jwt from 'jsonwebtoken';
 import { auth } from "./middleware.js"
 import cookieParser from 'cookie-parser';
+import { analyzeWithPython } from './analysicservice.js';
 const app = express()
 app.set("trust proxy", 1);
 app.use(
@@ -57,7 +58,18 @@ app.get("/api/initaldata", auth, async (req, res) => {
         const categories = await CategoryModel.find({userId: req.userId})
        
         const transactions = await TransactionModel.find({userId: req.userId}).sort({ createdAt: -1 })
-        res.status(200).json({ categories, user, transactions })
+        const response = await analyzeWithPython(transactions, categories);
+        user.balance = response.balance;
+        const updatedCategories = categories.map(category => {
+            const categoryData = response.categoryBreakdown.find(cat => cat.category === category.title);
+            return {
+                ...category.toObject(),
+                actual: categoryData ? categoryData.actual : 0,
+                utilization: categoryData ? categoryData.utilization : 0
+            };
+        });
+        res.status(200).json({ updatedCategories, user, transactions});
+       
     }
 
     catch (error) {

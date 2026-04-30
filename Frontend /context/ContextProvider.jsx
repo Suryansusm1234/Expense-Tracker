@@ -25,11 +25,15 @@ const CategoryProvider = ({children}) => {
       setBackendSlow(false)
       slowTimer = setTimeout(() => setBackendSlow(true), 1800)
       const res = await api.get(`/initaldata`)
+      console.log(res.data);
+      
       const data = res?.data
-      if (!data || !Array.isArray(data.categories) || !Array.isArray(data.transactions) || !data.user) {
+      if (!data || !Array.isArray(data.updatedCategories) || !Array.isArray(data.transactions) || !data.user) {
         throw new Error('Invalid initial data payload')
       }
-      setcategories(data.categories);
+      console.log(data.updatedCategories, data.transactions, data.user);
+      
+      setcategories(data.updatedCategories);
       setTransaction(data.transactions);
       setuser(data.user);
     } catch (error) {
