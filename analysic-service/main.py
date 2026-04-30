@@ -25,8 +25,10 @@ def analyze(data :InputData):
         else:
             expense += transaction.amount
 
-            if transaction.title in category_map:
-                category_map[transaction.title]["actual"] += transaction.amount
+            for cat in category_map:
+                if(cat == transaction.category):
+                    category_map[cat]["actual"] += transaction.amount
+                    break
     for cat in category_map.values():
         if cat["budgeted"] > 0:
             cat["utilization"] = int((cat["actual"] / cat["budgeted"]) * 100)

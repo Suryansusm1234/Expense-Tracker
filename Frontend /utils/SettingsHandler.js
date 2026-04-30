@@ -1,16 +1,22 @@
 import { api } from "./apiClient.js";
-export async function settingsHandler({ username,bankBalance,updatedCategories,setuser,setcategories}) {
-    console.log(username);
+export async function settingsHandler({ username,updatedCategories,setuser,setcategories ,user}) {
     
     const req = {
-        username,bankBalance,updatedCategories
+        username,updatedCategories
     }
-    console.log(req);
     
     const res = await api.post(`/update`,req)
     if (res.data.success) {
-        setcategories(res.data.categories)
-        const newuser = {username: username, balance : bankBalance }
+        const newcaategories = updatedCategories.map(cat => {
+            const budgeted  = cat.budgeted
+            const actual = cat.actual
+            cat.utilization = budgeted === 0 ? 0 : (actual / budgeted) * 100;
+            return cat;
+
+        })
+        
+        setcategories(newcaategories);
+        const newuser = {username: username, balance : user.balance }
         setuser(newuser)
     }
 }

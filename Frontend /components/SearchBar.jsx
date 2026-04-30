@@ -11,7 +11,6 @@ const SearchBar = ({ setfilter, start, setstart, end, setend, Transactions }) =>
     useEffect(() => {
 
         search({ Transactions, Input, setFilter })
-        console.log(Filter);
 
 
     }, [Input])

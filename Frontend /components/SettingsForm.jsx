@@ -1,34 +1,30 @@
 import { useState, useEffect } from "react";
 import { CircleX, Save, User, Wallet } from "lucide-react";
-// Assuming you will create a similar handler for settings later
 import { settingsHandler } from "../utils/SettingsHandler";
 import { useUniversal } from "../context/ContextProvider";
 
 const SettingsForm = ({ show, setshow }) => {
   const { categories, user, setuser, setcategories } = useUniversal();
-  const [username, setUsername] = useState("");
-  const [bankBalance, setBankBalance] = useState("");
+ const [username, setUsername] = useState(user?.username || "");
 
-  const [localCategories, setLocalCategories] = useState([]);
-  useEffect(() => {
-    if (show) {
-      if (user) {
-        setUsername(user.username || "");
-        setBankBalance(user.balance || 0);
-      }
 
-      if (categories) {
-        setLocalCategories(JSON.parse(JSON.stringify(categories)));
-      }
-    }
-  }, [show, user, categories]);
+  const [localCategories, setLocalCategories] = useState(categories || []);
+  // useEffect(() => {
+  //   if (show) {
+      
+
+  //     if (categories) {
+  //       setLocalCategories(JSON.parse(JSON.stringify(categories)));
+  //     }
+  //   }
+  // }, [show, user, categories]);
   const handleCategoryChange = (index, field, value) => {
     const updatedCats = [...localCategories];
-
-
-    updatedCats[index][field] = value;
+    const processedValue = field === "budgeted" || field === "actual" 
+      ? (value === "" ? 0 : Number(value))
+      : value;
+    updatedCats[index][field] = processedValue;
     setLocalCategories(updatedCats);
-
   };
 
   return (
@@ -53,7 +49,6 @@ const SettingsForm = ({ show, setshow }) => {
 
                   settingsHandler({
                     username,
-                    bankBalance,
                     updatedCategories: localCategories,
                     setuser,
                     setcategories,
@@ -78,19 +73,7 @@ const SettingsForm = ({ show, setshow }) => {
                       />
                     </div>
                   </div>
-                  <div className="flex items-center gap-3 border border-gray-200 rounded-xl p-3 focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500 transition-all">
-                    <Wallet size={20} className="text-slate-400" />
-                    <div className="flex-1">
-                      <label className="text-[10px] text-slate-400 font-bold uppercase block">Bank Balance</label>
-                      <input
-                        type="number"
-                        value={bankBalance}
-                        onChange={(e) => setBankBalance(e.target.value)}
-                        className="w-full font-bold text-slate-700 outline-none bg-transparent"
-                        placeholder="0.00"
-                      />
-                    </div>
-                  </div>
+                  
                 </div>
 
                 <div className="space-y-4">
@@ -110,18 +93,9 @@ const SettingsForm = ({ show, setshow }) => {
                             <label className="text-[10px] text-slate-400 font-bold uppercase">Budget</label>
                             <input
                               placeholder="Enter the budget"
-                              type="number"
+                              type="text"
                               value={cat.budgeted}
                               onChange={(e) => handleCategoryChange(index, "budgeted", e.target.value)}
-                              className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1 text-sm font-semibold outline-none focus:border-blue-500"
-                            />
-                          </div>
-                          <div className="flex-1">
-                            <label className="text-[10px] text-slate-400 font-bold uppercase">Actual</label>
-                            <input
-                              type="number"
-                              value={cat.actual || 0}
-                              onChange={(e) => handleCategoryChange(index, "actual", e.target.value)}
                               className="w-full bg-white border border-slate-200 rounded-lg px-2 py-1 text-sm font-semibold outline-none focus:border-blue-500"
                             />
                           </div>

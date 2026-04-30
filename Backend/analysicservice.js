@@ -62,6 +62,6 @@ export async function analyzeWithPython(transactions, categories) {
     balance: income - expense,
     income,
     expense,
-    categoryBreakdown: Object.values(categoryMap)
+    categoryBreakdown: Object.values(categoryMap),
   };
 }

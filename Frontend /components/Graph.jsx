@@ -2,6 +2,7 @@ import Piechat from './Piechat'
 import { useUniversal } from "../context/ContextProvider";
 const Graph = () => {
     const {categories} = useUniversal()
+    
   return (
     <div className="bg-white p-4 rounded-lg shadow-md flex items-center">
         <div>

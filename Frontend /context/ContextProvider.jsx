@@ -16,7 +16,6 @@ const CategoryProvider = ({children}) => {
 
    // Fetch categories and transactions from the backend API
   async function getInitialData() {
-    console.log("I am called");
     
     let slowTimer;
     try {
@@ -25,13 +24,11 @@ const CategoryProvider = ({children}) => {
       setBackendSlow(false)
       slowTimer = setTimeout(() => setBackendSlow(true), 1800)
       const res = await api.get(`/initaldata`)
-      console.log(res.data);
       
       const data = res?.data
       if (!data || !Array.isArray(data.updatedCategories) || !Array.isArray(data.transactions) || !data.user) {
         throw new Error('Invalid initial data payload')
       }
-      console.log(data.updatedCategories, data.transactions, data.user);
       
       setcategories(data.updatedCategories);
       setTransaction(data.transactions);
@@ -51,15 +48,18 @@ const CategoryProvider = ({children}) => {
 
   // Call this after successful login
   async function loginAndFetch() {
-    setIsAuthenticated(true)
+    
     try {
       await getInitialData()
+      setIsAuthenticated(true)
     } catch (error) {
       console.error("Failed to fetch initial data after login:", error);
     }
   }
 
   
+ 
+
   return (
     <UniversalContext.Provider value={{ categories, Transaction, setTransaction , user , setuser,setcategories, filter, setfilter,start,setstart,end,setend, usingMockData, loginAndFetch, isAuthenticated }}>
       {loading ? (
