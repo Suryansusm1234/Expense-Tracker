@@ -24,8 +24,10 @@ const TransactionSchema = new mongoose.Schema({
   createdAt :{
     type : String
   },
-  updatedAt :{
-    type :String,
+  userId :{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user",
+    required: true
   }
 })
 const TransactionModel = mongoose.model("Transaction", TransactionSchema)

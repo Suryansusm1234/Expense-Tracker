@@ -40,7 +40,7 @@ app.post("/api/login", async (req, res) => {
         return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    const token = jwt.sign({ username: user.username }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
     const isProd = process.env.NODE_ENV === "production";
     res.cookie("token", token, { 
         httpOnly: true,  
@@ -52,9 +52,11 @@ app.post("/api/login", async (req, res) => {
 });
 app.get("/api/initaldata", auth, async (req, res) => {
     try {
-        const categories = await CategoryModel.find({})
-        const user =   await UserModel.findOne({ username: req.user })
-        const transactions = await TransactionModel.find({}).sort({ createdAt: -1 })
+           const user = await UserModel.findById(req.userId)
+
+        const categories = await CategoryModel.find({userId: req.userId})
+       
+        const transactions = await TransactionModel.find({userId: req.userId}).sort({ createdAt: -1 })
         res.status(200).json({ categories, user, transactions })
     }
 
@@ -64,23 +66,11 @@ app.get("/api/initaldata", auth, async (req, res) => {
 })
 
 app.post("/api/transaction", auth, async (req, res) => {
-    const data = req.body;
+    
     try {
+        const userId = req.userId;
+    const data = { ...req.body, userId };
         const transaction = await TransactionModel.create(data)
-        if (transaction.type === 'expense') {
-            await UserModel.updateOne({}, { $inc: { balance: -transaction.amount } })
-            const updatedCategory = await CategoryModel.findOneAndUpdate(
-                { title: transaction.category },
-                { $inc: { actual: transaction.amount } },
-                { new: true })
-            if (updatedCategory) {
-                const newUtilization = Math.floor((updatedCategory.actual / updatedCategory.budgeted) * 100);
-                updatedCategory.utilization = newUtilization;
-                await updatedCategory.save();
-            }
-        } else {
-            await UserModel.updateOne({}, { $inc: { balance: transaction.amount } })
-        }
         res.status(201).json(transaction)
     } catch (error) {
         res.status(500).json({ message: error.message })
@@ -88,13 +78,14 @@ app.post("/api/transaction", auth, async (req, res) => {
 })
 
 app.post("/api/update", auth, async (req, res) => {
-    const { username, bankBalance, updatedCategories } = req.body;
+   
     try {
-        const updatedUser = await UserModel.findOneAndUpdate(
-            {},
+         const { username, bankBalance, updatedCategories } = req.body;
+        const userId = req.userId;
+        const updatedUser = await UserModel.findByIdAndUpdate(
+            userId,
             {
                 username: username,
-                balance: Number(bankBalance)
             },
             { new: true }
         );
@@ -105,36 +96,25 @@ app.post("/api/update", auth, async (req, res) => {
         const categoriesToUpdate = updatedCategories.filter(cat => {
             return typeof cat.budgeted === 'string' || typeof cat.actual === 'string';
         });
-        
-        for (const cat of categoriesToUpdate) {
-            // 1. Fetch the document first
-            const categoryDoc = await CategoryModel.findById(cat._id);
-
-            if (categoryDoc) {
-                // 2. Apply the new values (converting strings to numbers)
-                categoryDoc.budgeted = Number(cat.budgeted);
-                categoryDoc.actual = Number(cat.actual);
-
-                // 3. Recalculate utilization
-                // Handle division by zero just in case budget is 0
-                if (categoryDoc.budgeted > 0) {
-                    categoryDoc.utilization = Math.round((categoryDoc.actual / categoryDoc.budgeted) * 100);
-                } else {
-                    categoryDoc.utilization = 0;
-                }
-                await categoryDoc.save();
-            }
+       for (const cat of updatedCategories) {
+      await CategoryModel.findOneAndUpdate(
+        { _id: cat._id, userId },
+        {
+          budgeted: Number(cat.budgeted)
         }
-        const finalCategories = await CategoryModel.find({});
-        res.status(200).json({
-            success: true,
-            message: "Settings updated successfully",
-            categories: finalCategories
-        });
+      );
+    }
+        const finalCategories = await CategoryModel.find({ userId });
+         res.status(200).json({
+      success: true,
+      message: "Settings updated successfully",
+      categories: finalCategories
+    });
     } catch (error) {
         console.error("Update Error:", error);
         res.status(500).json({ message: "Server Error", error: error.message });
     }
 })
+
 app.listen(process.env.PORT || 8080)
 
