@@ -4,20 +4,11 @@ import { settingsHandler } from "../utils/SettingsHandler";
 import { useUniversal } from "../context/ContextProvider";
 
 const SettingsForm = ({ show, setshow }) => {
-  const { categories, user, setuser, setcategories } = useUniversal();
+  const { categories, user, setuser, setcategories , usingMockData } = useUniversal();
  const [username, setUsername] = useState(user?.username || "");
 
 
   const [localCategories, setLocalCategories] = useState(categories || []);
-  // useEffect(() => {
-  //   if (show) {
-      
-
-  //     if (categories) {
-  //       setLocalCategories(JSON.parse(JSON.stringify(categories)));
-  //     }
-  //   }
-  // }, [show, user, categories]);
   const handleCategoryChange = (index, field, value) => {
     const updatedCats = [...localCategories];
     const processedValue = field === "budgeted" || field === "actual" 
@@ -53,6 +44,7 @@ const SettingsForm = ({ show, setshow }) => {
                     setuser,
                     setcategories,
                     user,
+                    usingMockData
                   });
                   setshow(false);
                 }}

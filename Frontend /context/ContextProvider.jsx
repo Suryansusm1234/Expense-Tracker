@@ -58,7 +58,6 @@ const CategoryProvider = ({children}) => {
     }
   }
 
-  
  
 
   return (
